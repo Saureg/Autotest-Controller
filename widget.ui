@@ -15,9 +15,13 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QComboBox" name="comboProjects"/>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Проект: </string>
+     </property>
+    </widget>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="0" colspan="4">
     <widget class="QTableWidget" name="tableWidget">
      <column>
       <property name="text">
@@ -41,11 +45,6 @@
      </column>
      <column>
       <property name="text">
-       <string>Дизайн</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>Версии</string>
       </property>
      </column>
@@ -64,6 +63,42 @@
        <string>Комментарий</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QPushButton" name="btnAddProject">
+     <property name="text">
+      <string>Добавить проект</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="comboProjects">
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::DefaultContextMenu</enum>
+     </property>
+     <property name="maxVisibleItems">
+      <number>10</number>
+     </property>
     </widget>
    </item>
   </layout>

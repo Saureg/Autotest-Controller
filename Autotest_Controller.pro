@@ -13,9 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        widget.cpp
+        widget.cpp \
+    dialogaddproject.cpp
 
 HEADERS  += widget.h \
-    connectdb.h
+    connectdb.h \
+    dialogaddproject.h
 
-FORMS    += widget.ui
+FORMS    += widget.ui \
+    dialogaddproject.ui
