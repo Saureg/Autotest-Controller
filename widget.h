@@ -15,6 +15,9 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
+private slots:
+    void on_comboProjects_activated(int index);
+
 private:
     Ui::Widget *ui;
 };
