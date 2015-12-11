@@ -1,6 +1,7 @@
 #include "dialogaddtest.h"
 #include "ui_dialogaddtest.h"
 #include "connectdb.h"
+#include "widget.h"
 
 #include <QtSql>
 #include <QMessageBox>
@@ -96,5 +97,8 @@ void DialogAddTest::on_pushButton_clicked()
 
         //Закрытие диалога
         close();
+
+
     }
 }
+

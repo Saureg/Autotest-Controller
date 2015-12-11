@@ -24,6 +24,8 @@ private slots:
 
     void on_btnDeleteTest_clicked();
 
+    void refresh_table();
+
 private:
     Ui::Widget *ui;
 };

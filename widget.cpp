@@ -5,6 +5,7 @@
 
 #include <QtSql>
 #include <QDebug>
+#include <QMessageBox>
 
 
 extern int extCurrentProject;
@@ -71,10 +72,6 @@ Widget::~Widget()
 
 void Widget::on_comboProjects_activated(int index)
 {
-    //Заполнение модели автотестов
-//    autotests = new QSqlTableModel;
-//    autotests->setTable("Autotests");
-//    autotests->select();
 
     //Очищение таблицы
     int n=ui->tableWidget->rowCount();
@@ -84,14 +81,6 @@ void Widget::on_comboProjects_activated(int index)
     QSqlQuery query;
     query.exec("SELECT Autotests.id, Block.name, Autotests.functional, Autotests.name, Autotests.project, Autotests.testlink, Autotests.author, Autotests.date, Autotests.comment "
                "FROM Autotests, Block WHERE project = " + QString::number(index+1) + " AND Autotests.block = Block.id_block;");
-
-    //Добавление строк
-//    int lengthQuery = 0;
-//    while (query.next()) lengthQuery++;
-//    for (int i=0; i<lengthQuery; i++)
-//    {
-//        ui->tableWidget->insertRow(i);
-//    }
 
     //Заполнение таблицв
     while (query.next())
@@ -114,10 +103,7 @@ void Widget::on_comboProjects_activated(int index)
 
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
 
-    //ui->tableWidget->setItem(0, 0, new QTableWidgetItem(QString::number(index)));
-//    ui->tableWidget
-
-    //ui->tableWidget->setHorizontalHeaderItem(0, );
+    ui->labelRowCount->setText("Количество записей: "+QString::number(ui->tableWidget->rowCount()));
 }
 
 //Добавить информацию об автотесте
@@ -143,6 +129,53 @@ void Widget::on_btnEditTest_clicked()
 
 //Удалить информацию об автотесте
 void Widget::on_btnDeleteTest_clicked()
+{
+    int currentRow = ui->tableWidget->currentRow();
+//    qDebug() << "Current row " + QString::number(ui->tableWidget->currentRow());
+
+    //Удаление записи из базы
+    int idRecord = ui->tableWidget->item(currentRow, 0)->text().toInt();
+//    qDebug() << "ID = " + ui->tableWidget->item(currentRow, 0)->text();
+    QSqlQuery queryRemove;
+    queryRemove.exec("DELETE FROM Autotests WHERE id = " + idRecord);
+
+
+
+    //Тест******************************************
+    //Обновление таблицы после удаления
+
+    //Очищение таблицы
+    int n=ui->tableWidget->rowCount();
+    for (int i=0; i<n; i++) ui->tableWidget->removeRow(0);
+
+    //Выбор автотестов конкретного проекта
+    QSqlQuery query;
+    query.exec("SELECT Autotests.id, Block.name, Autotests.functional, Autotests.name, Autotests.project, Autotests.testlink, Autotests.author, Autotests.date, Autotests.comment "
+               "FROM Autotests, Block WHERE project = " + QString::number(ui->comboProjects->currentIndex()+1) + " AND Autotests.block = Block.id_block;");
+
+    //Заполнение таблицв
+    while (query.next())
+         {
+              ui->tableWidget->insertRow(0);
+              ui->tableWidget->setItem(0, 0, new QTableWidgetItem(query.value(0).toString())); //id
+              ui->tableWidget->setItem(0, 1, new QTableWidgetItem(query.value(1).toString())); //Блок
+              ui->tableWidget->setItem(0, 2, new QTableWidgetItem(query.value(2).toString())); //Функциональные возможности
+              ui->tableWidget->setItem(0, 3, new QTableWidgetItem(query.value(3).toString()));  //Название
+              //ui->tableWidget->setItem(0, 3, new QTableWidgetItem(query.value(3).toString()));
+              ui->tableWidget->setItem(0, 4, new QTableWidgetItem(ui->comboProjects->currentText())); //Проект
+              ui->tableWidget->setItem(0, 5, new QTableWidgetItem(query.value(5).toString())); //Тестлинк
+              ui->tableWidget->setItem(0, 6, new QTableWidgetItem(query.value(6).toString())); //автор
+              ui->tableWidget->setItem(0, 7, new QTableWidgetItem(query.value(7).toString())); //Дата
+              ui->tableWidget->setItem(0, 8, new QTableWidgetItem(query.value(8).toString())); //Комментарий
+              //ui->tableWidget->setRowHeight(0, 20);
+         }
+
+    ui->labelRowCount->setText("Количество записей: "+QString::number(ui->tableWidget->rowCount()));
+    //**************************************************8
+}
+
+//Не работает
+void Widget::refresh_table()
 {
 
 }
