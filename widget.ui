@@ -21,8 +21,11 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="1" column="0" colspan="14">
     <widget class="QTableWidget" name="tableWidget">
+     <property name="toolTip">
+      <string/>
+     </property>
      <column>
       <property name="text">
        <string>id</string>
@@ -31,6 +34,11 @@
      <column>
       <property name="text">
        <string>Функциональный блок</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Функциональные возможности</string>
       </property>
      </column>
      <column>
@@ -45,7 +53,10 @@
      </column>
      <column>
       <property name="text">
-       <string>Версии</string>
+       <string>Название ТК</string>
+      </property>
+      <property name="toolTip">
+       <string>Наименование теста в Testlink</string>
       </property>
      </column>
      <column>
@@ -65,25 +76,12 @@
      </column>
     </widget>
    </item>
-   <item row="0" column="3">
+   <item row="0" column="12">
     <widget class="QPushButton" name="btnAddProject">
      <property name="text">
       <string>Добавить проект</string>
      </property>
     </widget>
-   </item>
-   <item row="0" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item row="0" column="1">
     <widget class="QComboBox" name="comboProjects">
@@ -98,6 +96,27 @@
      </property>
      <property name="maxVisibleItems">
       <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QPushButton" name="btn_AddTest">
+     <property name="text">
+      <string>Добавить</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="btnEditTest">
+     <property name="text">
+      <string>Изменить</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QPushButton" name="btnDeleteTest">
+     <property name="text">
+      <string>Удалить</string>
      </property>
     </widget>
    </item>

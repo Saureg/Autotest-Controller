@@ -1,9 +1,14 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "connectdb.h"
+#include "dialogaddtest.h"
 
 #include <QtSql>
 #include <QDebug>
+
+
+extern int extCurrentProject;
+extern QStringList extProjectList;
 
 QSqlTableModel *projects;
 QSqlTableModel *autotests;
@@ -33,6 +38,7 @@ Widget::Widget(QWidget *parent) :
     for (int i=0; i<countProjectModel; i++)
     {
         ui->comboProjects->addItem(projects->record(i).value(1).toString());
+        extProjectList.append(projects->record(i).value(1).toString());
     }
 
     //Настройка ширины столбцов
@@ -76,7 +82,8 @@ void Widget::on_comboProjects_activated(int index)
 
     //Выбор автотестов конкретного проекта
     QSqlQuery query;
-    query.exec("SELECT * FROM Autotests WHERE project = " + QString::number(index+1) + ";");
+    query.exec("SELECT Autotests.id, Block.name, Autotests.functional, Autotests.name, Autotests.project, Autotests.testlink, Autotests.author, Autotests.date, Autotests.comment "
+               "FROM Autotests, Block WHERE project = " + QString::number(index+1) + " AND Autotests.block = Block.id_block;");
 
     //Добавление строк
 //    int lengthQuery = 0;
@@ -90,15 +97,16 @@ void Widget::on_comboProjects_activated(int index)
     while (query.next())
          {
               ui->tableWidget->insertRow(0);
-              ui->tableWidget->setItem(0, 0, new QTableWidgetItem(query.value(0).toString()));
-              ui->tableWidget->setItem(0, 1, new QTableWidgetItem(query.value(1).toString()));
-              ui->tableWidget->setItem(0, 2, new QTableWidgetItem(query.value(2).toString()));
+              ui->tableWidget->setItem(0, 0, new QTableWidgetItem(query.value(0).toString())); //id
+              ui->tableWidget->setItem(0, 1, new QTableWidgetItem(query.value(1).toString())); //Блок
+              ui->tableWidget->setItem(0, 2, new QTableWidgetItem(query.value(2).toString())); //Функциональные возможности
+              ui->tableWidget->setItem(0, 3, new QTableWidgetItem(query.value(3).toString()));  //Название
               //ui->tableWidget->setItem(0, 3, new QTableWidgetItem(query.value(3).toString()));
-              ui->tableWidget->setItem(0, 3, new QTableWidgetItem(ui->comboProjects->currentText()));
-              ui->tableWidget->setItem(0, 4, new QTableWidgetItem(query.value(4).toString()));
-              ui->tableWidget->setItem(0, 5, new QTableWidgetItem(query.value(5).toString()));
-              ui->tableWidget->setItem(0, 6, new QTableWidgetItem(query.value(6).toString()));
-              ui->tableWidget->setItem(0, 7, new QTableWidgetItem(query.value(7).toString()));
+              ui->tableWidget->setItem(0, 4, new QTableWidgetItem(ui->comboProjects->currentText())); //Проект
+              ui->tableWidget->setItem(0, 5, new QTableWidgetItem(query.value(5).toString())); //Тестлинк
+              ui->tableWidget->setItem(0, 6, new QTableWidgetItem(query.value(6).toString())); //автор
+              ui->tableWidget->setItem(0, 7, new QTableWidgetItem(query.value(7).toString())); //Дата
+              ui->tableWidget->setItem(0, 8, new QTableWidgetItem(query.value(8).toString())); //Комментарий
               //ui->tableWidget->setRowHeight(0, 20);
          }
 
@@ -108,4 +116,33 @@ void Widget::on_comboProjects_activated(int index)
 
     //ui->tableWidget->setItem(0, 0, new QTableWidgetItem(QString::number(index)));
 //    ui->tableWidget
+
+    //ui->tableWidget->setHorizontalHeaderItem(0, );
+}
+
+//Добавить информацию об автотесте
+void Widget::on_btn_AddTest_clicked()
+{
+
+    extCurrentProject = ui->comboProjects->currentIndex();
+
+    //Отображение диалога добавления теста
+    DialogAddTest dialogAddTest(this);
+    dialogAddTest.exec();
+
+    //Добавление
+    //ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+
+}
+
+//Изменить информацию об автотесте
+void Widget::on_btnEditTest_clicked()
+{
+
+}
+
+//Удалить информацию об автотесте
+void Widget::on_btnDeleteTest_clicked()
+{
+
 }

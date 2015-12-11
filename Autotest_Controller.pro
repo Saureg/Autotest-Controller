@@ -14,11 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         widget.cpp \
-    dialogaddproject.cpp
+    dialogaddproject.cpp \
+    dialogaddtest.cpp
 
 HEADERS  += widget.h \
     connectdb.h \
-    dialogaddproject.h
+    dialogaddproject.h \
+    dialogaddtest.h
 
 FORMS    += widget.ui \
-    dialogaddproject.ui
+    dialogaddproject.ui \
+    dialogaddtest.ui
