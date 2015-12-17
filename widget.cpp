@@ -135,10 +135,13 @@ void Widget::on_btnDeleteTest_clicked()
 
     //Удаление записи из базы
     int idRecord = ui->tableWidget->item(currentRow, 0)->text().toInt();
-//    qDebug() << "ID = " + ui->tableWidget->item(currentRow, 0)->text();
+    qDebug() << "ID = " + ui->tableWidget->item(currentRow, 0)->text();
     QSqlQuery queryRemove;
-    queryRemove.exec("DELETE FROM Autotests WHERE id = " + idRecord);
+    //queryRemove.exec("DELETE FROM Autotests WHERE id = '" + idRecord + "'");
 
+    queryRemove.prepare("DELETE FROM Autotests WHERE id = :id");
+    queryRemove.bindValue(":id", idRecord);
+    queryRemove.exec();
 
 
     //Тест******************************************
